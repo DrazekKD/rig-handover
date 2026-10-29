@@ -39,7 +39,8 @@ jobs:
           mkdir -p _site
           curl -fsS http://localhost:8787/digest/2026-10-28 -o _site/index.html
           grep -q '<table' _site/index.html
-          echo "banner: $(grep -o '<span class="marker">[^<]*' _site/index.html | sed 's/.*>//')"
+          # Say only whether a marker is set: the log is public, the marker must come off later (ADR 0003).
+          if grep -q 'class="marker">no marker set<' _site/index.html; then echo "banner: no marker set"; else echo "banner: marker set"; fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
